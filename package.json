@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@inlet/react-pixi": "^6.7.0",
+    "@pixi/canvas-renderer": "^6.3.0",
     "@pixi/loaders": "^6.3.0",
     "@pixi/tilemap": "^3.2.2",
     "@testing-library/jest-dom": "^5.16.4",

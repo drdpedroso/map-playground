@@ -35,52 +35,10 @@ export function Tilemap(width, height){
   this.mouseoverGraphics = new PIXI.Graphics();
   this.addChild(this.selectedGraphics);
   this.addChild(this.mouseoverGraphics);
-
-  this.mousedown = this.touchstart = function(data) {
-    // if(data.getLocalPosition(this.parent).x > menuBarWidth) {
-    //   this.dragging = true;
-    //   this.mousePressPoint[0] = data.getLocalPosition(this.parent).x - this.position.x;
-    //   this.mousePressPoint[1] = data.getLocalPosition(this.parent).y - this.position.y;
-    //
-    //   this.selectTile(Math.floor(this.mousePressPoint[0] / (this.tileSize * this.zoom)),
-    //              Math.floor(this.mousePressPoint[1] / (this.tileSize * this.zoom)));
-    // }
-  };
-  this.mouseup = this.mouseupoutside =
-    this.touchend = this.touchendoutside = function(data) {
-    this.dragging = false;
-  };
-  // this.mousemove = this.touchmove = function(data)
-  // {
-  //   if(this.dragging)
-  //   {
-  //     var position = data.getLocalPosition(this.parent);
-  //     this.position.x = position.x - this.mousePressPoint[0];
-  //     this.position.y = position.y - this.mousePressPoint[1];
-  //
-  //     this.constrainTilemap();
-  //   }
-  //   else{
-  //     var mouseOverPoint = [0, 0];
-  //     // mouseOverPoint[0] = data.getLocalPosition(this.parent).x - this.position.x;
-  //     // mouseOverPoint[1] = data.getLocalPosition(this.parent).y - this.position.y;
-  //
-  //     var mouseoverTileCoords = [Math.floor(mouseOverPoint[0] / (this.tileSize * this.zoom)),
-  //                           Math.floor(mouseOverPoint[1] / (this.tileSize * this.zoom))];
-  //     this.mouseoverGraphics.clear();
-  //     this.mouseoverGraphics.lineStyle(1, 0xFFFFFF, 1);
-  //     this.mouseoverGraphics.beginFill(0x000000, 0);
-  //     this.mouseoverGraphics.drawRect(mouseoverTileCoords[0] * this.tileSize,
-  //                           mouseoverTileCoords[1] * this.tileSize,
-  //                           this.tileSize - 1,
-  //                           this.tileSize - 1);
-  //     this.mouseoverGraphics.endFill();
-  //   }
-  // };
 }
 
 Tilemap.prototype.addTile = function(x, y, terrain){
-  var tile = new PIXI.Sprite(texture);
+  var tile = new PIXI.Sprite.from(texture);
   tile.position.x = x * this.tileSize;
   tile.position.y = y * this.tileSize;
   tile.tileX = x;

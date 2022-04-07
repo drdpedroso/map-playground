@@ -1,4 +1,6 @@
+import {Tilemap} from './tilemap';
 // define a few globals here
+const PIXI = require('pixi.js');
 var stage = null;
 var renderer = null;
 var renderWidth = 800;
@@ -8,12 +10,11 @@ var tilemap = null;
 var menu = null;
 var menuBarWidth = 120;
 
-function Main(tilesPath, w, h){
+export function Main(tilesPath, w, h){
+  console.log(tilesPath)
   // For zoomed-in pixel art, we want crisp pixels instead of fuzziness
-  PIXI.scaleModes.DEFAULT = PIXI.scaleModes.NEAREST;
-
   // Create the stage. This will be used to add sprites (or sprite containers) to the screen.
-  stage = new PIXI.Stage(0x888888);
+  stage = new PIXI.Container();
   // Create the renderer and add it to the page.
   // (autoDetectRenderer will choose hardware accelerated if possible)
   if(w != 0 && h != 0){
@@ -24,32 +25,30 @@ function Main(tilesPath, w, h){
   //document.body.appendChild(renderer.view);
 
   // Set up the asset loader for sprite images with the .json data and a callback
-  var tileAtlas = [tilesPath + "tiles.json"];
-  var loader = new PIXI.AssetLoader(tileAtlas);
-  loader.onComplete = onLoaded;
-  loader.load();
+  var tileAtlas = [ "./tiles.json"];
+
+  var loader = new PIXI.Loader()
+  loader.add(tileAtlas);
+  loader.load((loader, resources) => {
+    tilemap = new Tilemap(64, 50);
+    tilemap.position.x = menuBarWidth;
+    stage.addChild(tilemap);
+    debugger
+    // zoom in on the starting tile
+    tilemap.selectTile(tilemap.startLocation.x, tilemap.startLocation.y);
+    tilemap.zoomIn();
+
+    // begin drawing
+    requestAnimationFrame(animate);
+
+  });
 
   return renderer.view;
 }
 
 // called when sprites are finished loading
-function onLoaded(){
-  tilemap = new Tilemap(64, 50);
-  tilemap.position.x = menuBarWidth;
-  stage.addChild(tilemap);
-
-  menu = new Menu();
-  stage.addChild(menu);
-
-  // zoom in on the starting tile
-  tilemap.selectTile(tilemap.startLocation.x, tilemap.startLocation.y);
-  tilemap.zoomIn();
-
-  // begin drawing
-  requestAnimFrame(animate);
-}
 
 function animate() {
-  requestAnimFrame(animate);
+  requestAnimationFrame(animate);
   renderer.render(stage);
 }
